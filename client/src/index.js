@@ -13,7 +13,7 @@ const songs = [
   },
   {
     artistName: 'The Artist Formerly known as $',
-    songName: '$("#money")'
+    songName: '$(".money")'
   }
 ];
 

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+
 import Header from './Header';
 import Playlist from './Playlist'
 import AddSongForm from './AddSongForm';
@@ -11,23 +13,30 @@ class App extends Component {
       songs: [],
     }
     this.addSong = this.addSong.bind(this);
+    this.getSongs = this.getSongs.bind(this);
   }
 
   componentDidMount() {
-    const { songs } = this.props;
-    this.setState({
-      songs
+    this.getSongs();
+  }
+
+  getSongs() {
+    axios.get('/api/songs')
+    .then(({ data }) => {
+      this.setState({
+        songs: data
+      })
     })
+    .catch(console.log);
   }
 
   addSong(song) {
     const { songs } = this.state;
     const newSongs = songs.slice();
 
-    newSongs.push(song);
-    this.setState({
-      songs: newSongs,
-    })
+    axios.post('/api/songs', song)
+      .then((response) => this.getSongs())
+      .catch(console.log)
   }
 
   render() {
